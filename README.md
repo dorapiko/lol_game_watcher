@@ -7,18 +7,30 @@
 - 「ゲーム中 -> 非ゲーム中」遷移を検出
 - 最新試合の結果（勝敗、チャンピオン、KDA、試合時間）をDiscordへ投稿
 
-## セットアップ
-1. 依存関係をインストール
+## セットアップ（Python）
+1. 仮想環境を作成（任意ですが推奨）
 
-   npm install
+   python3 -m venv .venv
+   source .venv/bin/activate
 
-2. 環境変数を作成
+2. 依存関係をインストール
+
+   pip install -r requirements.txt
+
+3. 環境変数を作成
 
    .env.example をコピーして .env を作成し、値を埋めます。
 
-3. Botを実行
+4. Botを実行
 
-   npm run dev
+   python3 bot.py
+
+## セットアップ（TypeScript）
+既存のTypeScript版を使う場合は以下です。
+
+1. npm install
+2. .env.example をコピーして .env を作成
+3. npm run dev
 
 ## 環境変数
 - DISCORD_TOKEN: Discord Botトークン
@@ -27,11 +39,12 @@
 - LOL_PLATFORM_REGION: 例 `jp1`
 - RIOT_REGION: 例 `asia`
 - POLL_INTERVAL_SECONDS: 監視間隔（秒）
-- TRACKED_PLAYERS_JSON: 監視対象配列(JSON)
+- TRACKED_PLAYERS_JSON: 監視対象配列(JSON)。`name` は任意で、未指定ならLoLの名前を自動取得
 
 例:
 [
-  {"name":"friend1","puuid":"xxxxxxxx"}
+   {"puuid":"xxxxxxxx"},
+   {"name":"任意の表示名","puuid":"yyyyyyyy"}
 ]
 
 ## 注意
