@@ -1,53 +1,93 @@
-# LoL Game Watcher Discord Bot
+# Dorapiko Match Watcher
 
-進行中のLoLゲームが終わったタイミングを検知し、指定Discordチャンネルに試合結果を投稿するBotです。
+Dorapiko Match Watcher is a Discord bot that detects when a tracked League of Legends match ends and posts a concise post-game summary to a designated Discord channel.
 
-## できること
-- 監視対象プレイヤーの進行中ゲーム状態を定期チェック
-- 「ゲーム中 -> 非ゲーム中」遷移を検出
-- 最新試合の結果（勝敗、チャンピオン、KDA、試合時間）をDiscordへ投稿
+This product is not endorsed by Riot Games.
 
-## セットアップ（Python）
-1. 仮想環境を作成（任意ですが推奨）
+## Product Overview
 
-   python3 -m venv .venv
-   source .venv/bin/activate
+- Tracks registered players by Riot ID and PUUID.
+- Detects match-end events by polling recent matches.
+- Posts summary embeds to Discord, including result, champion, role, KDA, damage, CS, duration, and build progression.
+- Supports runtime management commands to add, list, toggle, and remove tracked players.
 
-2. 依存関係をインストール
+## Riot APIs Used
 
-   pip install -r requirements.txt
+- Riot Account-V1
+  - Resolve Riot ID to PUUID.
+- Match-V5
+  - Recent match IDs for tracked players.
+  - Match detail data for post-game summary.
+  - Match timeline for item purchase order.
 
-3. 環境変数を作成
+Only documented Riot endpoints are used.
 
-   .env.example をコピーして .env を作成し、値を埋めます。
+## Policy and Compliance Notes
 
-4. Botを実行
+- No undocumented Riot endpoints are used.
+- No third-party site scraping is used.
+- No alternative rank systems (MMR or ELO) are provided.
+- No player reporting, shaming, or public judgment features are provided.
+- No official Riot logos are used.
+- No claim of Riot partnership or Riot approval is made.
 
-   python3 bot.py
+## Security Practices
 
-## セットアップ（TypeScript）
-既存のTypeScript版を使う場合は以下です。
+- Secrets are loaded from environment variables.
+- Do not commit .env or any real token/key files.
+- Rotate Discord and Riot keys immediately if exposure is suspected.
+- Use separate keys per environment and per project.
 
-1. npm install
-2. .env.example をコピーして .env を作成
-3. npm run dev
+## Setup (Python)
 
-## 環境変数
-- DISCORD_TOKEN: Discord Botトークン
-- DISCORD_CHANNEL_ID: 投稿先テキストチャンネルID
-- RIOT_API_KEY: Riot Developer APIキー
-- LOL_PLATFORM_REGION: 例 `jp1`
-- RIOT_REGION: 例 `asia`
-- POLL_INTERVAL_SECONDS: 監視間隔（秒）
-- TRACKED_PLAYERS_JSON: 監視対象配列(JSON)。`name` は任意で、未指定ならLoLの名前を自動取得
+1. Create and activate a virtual environment.
 
-例:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+2. Install dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Create .env from .env.example and set values.
+
+4. Run the bot.
+
+```bash
+python3 bot.py
+```
+
+## Environment Variables
+
+- DISCORD_TOKEN: Discord bot token.
+- DISCORD_CHANNEL_ID: Target text channel ID.
+- RIOT_API_KEY: Riot API key.
+- LOL_PLATFORM_REGION: Platform region, for example jp1.
+- RIOT_REGION: Regional routing, for example asia.
+- POLL_INTERVAL_SECONDS: Polling interval in seconds.
+- TRACKED_PLAYERS_JSON: Initial tracked players array.
+
+Example TRACKED_PLAYERS_JSON:
+
+```json
 [
-   {"puuid":"xxxxxxxx"},
-   {"name":"任意の表示名","puuid":"yyyyyyyy"}
+  {"puuid": "xxxxxxxx"},
+  {"name": "display-name", "puuid": "yyyyyyyy"}
 ]
+```
 
-## 注意
-- Riot APIのレート制限に注意してください。
-- 初回起動時はベースラインを記録し、過去試合は投稿しません。
-- この実装は最小構成です。必要に応じて再試行、永続化、詳細なキュー名変換を追加してください。
+## Public Release Checklist
+
+- Confirm .env is not tracked by git.
+- Confirm no live token or key is in committed files.
+- Confirm Product URL is publicly reachable.
+- Confirm project description matches implemented behavior.
+- Confirm compliance items in this README are still true.
+
+## Contact
+
+- Project owner: Update this section before submitting for production review.
