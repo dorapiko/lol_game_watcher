@@ -871,6 +871,47 @@ async def add_tracked_player(interaction: discord.Interaction, riot_id: str) -> 
         await interaction.followup.send(f"追加に失敗しました: {exc}", ephemeral=True)
 
 
+@tree.command(name="help", description="コマンド一覧と使い方を表示")
+async def show_help(interaction: discord.Interaction) -> None:
+    embed = discord.Embed(
+        title="📚 どらぴこbot ヘルプ",
+        description="よく使うコマンドをまとめました。",
+        color=discord.Color.blurple(),
+    )
+    embed.add_field(
+        name="/track_add riot_id",
+        value="監視対象を追加します。\n例: /track_add riot_id: 藤Uの自由#dlpk",
+        inline=False,
+    )
+    embed.add_field(
+        name="/track_list",
+        value="現在の監視対象一覧とON/OFF状態を表示します。",
+        inline=False,
+    )
+    embed.add_field(
+        name="/track_toggle",
+        value="プルダウンでプレイヤーごとの監視ON/OFFを切り替えます。",
+        inline=False,
+    )
+    embed.add_field(
+        name="/track_remove",
+        value="プルダウンで監視対象を削除します。",
+        inline=False,
+    )
+    embed.add_field(
+        name="/tracking_toggle",
+        value="トラッキング機能全体のON/OFFを切り替えます。",
+        inline=False,
+    )
+    embed.add_field(
+        name="/help",
+        value="このヘルプを表示します。",
+        inline=False,
+    )
+    embed.set_footer(text="困ったらまず /help をどうぞ。")
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
 @tree.command(name="track_list", description="現在の監視対象プレイヤー一覧を表示")
 async def list_tracked_players(interaction: discord.Interaction) -> None:
     if not TRACKED_PLAYERS:
